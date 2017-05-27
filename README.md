@@ -8,5 +8,4 @@ It will feature several working examples for
  * Q-Learning (DQN, DDQN)
 upon one can base future work on.
 
-Because we didn't want to start from scratch, the matlab-only implementation is based on [this repository](https://github.com/ahoereth/matlab-neural-networks).
-We will probably rewrite it in `C++` for speed and customization. 
+We will use the Neural Network Toolbox API.
