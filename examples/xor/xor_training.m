@@ -9,19 +9,22 @@
 
 % ------------------------------------------------------------------
 % Defining dataset
-x_1 = single( [0] ); % ; 0] );
-x_2 = single( [0] ); % ; 1] );
-x_3 = single( [1] ); % ; 0] );
-x_4 = single( [1] ); % ; 1] );
-X = [ x_1 x_2 x_3 x_4 ];
+x_1 = single( [0 ; 0] );
+x_2 = single( [0 ; 1] );
+x_3 = single( [1 ; 0] );
+x_4 = single( [1 ; 1] );
+% X = [ x_1 x_2 x_3 x_4 ];
 
-y_1 = single(1);
+y_1 = single(0);
 y_2 = single(1);
-y_3 = single(0);
+y_3 = single(1);
 y_4 = single(0);
 
-Y = [ y_1 y_2 y_3 y_4 ];
+% Y = [ y_1 y_2 y_3 y_4 ];
 % ------------------------------------------------------------------
+
+
+rng(0);
 
 x = X;
 t = Y;
@@ -32,14 +35,14 @@ t = Y;
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
+trainFcn = 'trainlm';  % Scaled conjugate gradient backpropagation.
 % ------------------------------------------------------------------
 
 % Create a Fitting Network
 % ------------------------------------------------------------------
 % per default there will be size(hiddenLayers) + 1 layers
 % change 'fitnet' to another neural net architecture if needed
-hiddenLayers = [2 2 3]; 
+hiddenLayers = [100 100 100]; 
 net = fitnet(hiddenLayers,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
@@ -53,19 +56,19 @@ net.divideFcn = 'dividerand';  % Divide data randomly
 net.divideMode = 'sample';  % Divide up every sample
 
 % we only use this for RL training, we don't have a testRatio/valRatio
-net.divideParam.trainRatio = 96/100;
-net.divideParam.valRatio = 2/100;
-net.divideParam.testRatio = 2/100;
+net.divideParam.trainRatio = 95/100;
+net.divideParam.valRatio = 2.5/100;
+net.divideParam.testRatio = 2.5/100;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'mse';  % Mean Squared Error
 
 % We only have want to learn one-by-one, because we don't have batches in RL
-net.trainParam.epochs = 100;
+net.trainParam.epochs = 1000;
 
 % Don't open unneeded GUIs
-net.trainParam.showWindow=0;
+%net.trainParam.showWindow=0;
 % ------------------------------------------------------------------
 
 
@@ -112,13 +115,13 @@ testPerformance = perform(net,testTargets,y)
 % ------------------------------------------------------------------
 % Change the (false) values to (true) to enable the following code blocks.
 % See the help for each generation function for more information.
-if (false)
+if (true)
     % Generate MATLAB function for neural network for application
     % deployment in MATLAB scripts or with MATLAB Compiler and Builder
     % tools, or simply to examine the calculations your trained neural
     % network performs.
-    genFunction(net,'myNeuralNetworkFunction');
-    y = myNeuralNetworkFunction(x);
+    genFunction(net,'sinsincosnet');
+    y = sinsincosnet(x);
 end
 if (false)
     % Generate a matrix-only MATLAB function for neural network code
