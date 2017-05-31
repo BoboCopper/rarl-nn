@@ -42,7 +42,7 @@ trainFcn = 'trainlm';  % Scaled conjugate gradient backpropagation.
 % ------------------------------------------------------------------
 % per default there will be size(hiddenLayers) + 1 layers
 % change 'fitnet' to another neural net architecture if needed
-hiddenLayers = [100 100 100]; 
+hiddenLayers = [2 8]; 
 net = fitnet(hiddenLayers,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
