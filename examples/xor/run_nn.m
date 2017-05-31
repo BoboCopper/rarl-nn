@@ -4,15 +4,18 @@ X = [0.0:0.01:bound];
 Y = sin(sin(cos(X) * 2)*2 + 2);
 
 figure(1);
-subplot(2,2,1); title X;
+subplot(2,2,1);
 plot(X,X);
+title X;
 
-subplot(2,2,2); title Y;
+subplot(2,2,2);
 ylim([-1 1]);
 plot(X,Y);
+title Y;
 
-subplot(2,2,4); title Y^{nn};
+subplot(2,2,4);
 ylim([-1 1]);
+
 xor_training;
 
 
@@ -23,3 +26,4 @@ end
 
 plot(X,Y_nn);
 ylim([-1 1]);
+title Y^{nn};
