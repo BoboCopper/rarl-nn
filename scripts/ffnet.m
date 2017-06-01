@@ -18,7 +18,7 @@ function net = ffnet(hiddenLayers, costFunction, epochs, showGUI)
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
+trainFcn = 'trainlm';  % Scaled conjugate gradient backpropagation.
 % ------------------------------------------------------------------
 
 % Create a Fitting Network
@@ -29,8 +29,8 @@ net = fitnet(hiddenLayers,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
-net.input.processFcns = {'removeconstantrows','mapminmax'};
-net.output.processFcns = {'removeconstantrows','mapminmax'};
+% net.input.processFcns = {'removeconstantrows','mapminmax'};
+% net.output.processFcns = {'removeconstantrows','mapminmax'};
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
