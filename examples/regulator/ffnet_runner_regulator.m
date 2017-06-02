@@ -9,7 +9,7 @@ addpath('../../data/regulator');
 % -----------------------------------------------
 % Highlevel configuration of the network
 %
-hiddenLayers = [50 50 50];
+hiddenLayers = [5 5 5];
 costFunction = 'mse';  % >> help nnperformance
 % -----------------------------------------------
 
