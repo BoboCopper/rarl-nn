@@ -9,15 +9,25 @@ addpath('../../data/regulator');
 % -----------------------------------------------
 % Highlevel configuration of the network
 %
-hiddenLayers = [50 50 50];
-costFunction = 'mse';  % >> help nnperformance
+hiddenLayers = [10 100 10];
+costFunction = 'mae';  % >> help nnperformance
+% using mean absolute error (L1-loss)
+
+% -----------------------------------------------
+% Parallization
+
+multiCoreActive       = 1;
+gpuAccelerationActive = 0;
+
+% -----------------------------------------------
+
 % -----------------------------------------------
 
 % -----------------------------------------------
 % Highlevel configuration of the training
 %
-generation = 100;              % run training #generation * #epoch times
-epochs     = 500;             % 
+generation = 1;              % run training #generation * #epoch times
+epochs     = 1000;             % 
 
 % -----------------------------------------------
 % Inputs
@@ -65,8 +75,20 @@ net  = ffnet(hiddenLayers, costFunction, epochs, showGUI);
 fprintf('------- Starting training... --------\n');
 
 for gen = 1:generation
-    [net, tr] = train(net, X, Y); 
-%    [net, tr] = train(net, X, Y, 'UseParallel', 'yes');  % GPU Acceleartion
+    
+    if multiCoreActive && multiCoreActive
+        [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
+        
+    elseif gpuAccelerationActive
+        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
+         
+    elseif multiCoreActive
+        [net, tr] = train(net, X, Y, 'useParallel','yes','showResources','yes'); 
+        
+    else
+        [net, tr] = train(net, X, Y);
+    end
+    
     [trainingError, testError, validationError] = trainingdata(net, X, Y, tr);
 
     % Console output

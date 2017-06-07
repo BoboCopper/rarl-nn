@@ -18,7 +18,7 @@ function net = ffnet(hiddenLayers, costFunction, epochs, showGUI)
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainlm';  % Scaled conjugate gradient backpropagation.
+trainFcn = 'trainbr';  % Scaled conjugate gradient backpropagation.
 % ------------------------------------------------------------------
 
 % Create a Fitting Network
@@ -34,13 +34,19 @@ net = fitnet(hiddenLayers,trainFcn);
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
-net.divideFcn = 'dividerand';  % Divide data randomly
+net.divideFcn = 'divideint';  % Divide data based on intervals
 net.divideMode = 'sample';  % Divide up every sample
 
 % we only use this for RL training, we don't have a testRatio/valRatio
 net.divideParam.trainRatio = 75/100;
 net.divideParam.valRatio = 25/100;
-net.divideParam.testRatio = 25/100;
+net.divideParam.testRatio = 0/100;
+
+% how often can the validation error rise
+net.trainParam.max_fail = 100; 
+
+% only L2 regularisation is possible (1/n * sum(w^2))
+net.performParam.regularization = 0.5;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
@@ -51,6 +57,9 @@ net.trainParam.epochs = epochs;
 
 % Don't open unneeded GUIs
 net.trainParam.showWindow = showGUI;
+
+
+
 % ------------------------------------------------------------------
 
 end
