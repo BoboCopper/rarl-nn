@@ -116,7 +116,7 @@ s = '';
 for layer=1:length(hiddenLayers)
     s = strcat(s, num2str(hiddenLayers(layer)), '-');
 end
-title(strcat(s, costFunction));
+title(strcat(s, costFunction, '-', num2str(validationError)));
 saveas(gcf, strcat(s, costFunction));
 % END save figure file with following syntax: hiddenLayers-costFunction
 hold off;
