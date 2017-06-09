@@ -111,6 +111,14 @@ Y_nn = temp_net(X);
 plot(Y);
 hold on;
 plot(Y_nn);
+% END save figure file with following syntax: hiddenLayers-costFunction
+s = '';
+for layer=1:length(hiddenLayers)
+    s = strcat(s, num2str(hiddenLayers(layer)), '-');
+end
+title(strcat(s, costFunction));
+saveas(gcf, strcat(s, costFunction));
+% END save figure file with following syntax: hiddenLayers-costFunction
 hold off;
 delete('temp_net.m');
 
