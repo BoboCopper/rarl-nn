@@ -13,13 +13,11 @@ hiddenLayers = [10 100 10];
 costFunction = 'mae';  % >> help nnperformance
 % using mean absolute error (L1-loss)
 
-% elapsed time
-tic
 % -----------------------------------------------
 % Parallization
 
-multiCoreActive       = 0;
-gpuAccelerationActive = 1;
+multiCoreActive       = 1;
+gpuAccelerationActive = 1dasd;
 
 % -----------------------------------------------
 
@@ -111,14 +109,6 @@ Y_nn = temp_net(X);
 plot(Y);
 hold on;
 plot(Y_nn);
-% START save figure file with following syntax: hiddenLayers-costFunction
-s = '';
-for layer=1:length(hiddenLayers)
-    s = strcat(s, num2str(hiddenLayers(layer)), '-');
-end
-title(strcat(s, costFunction));
-saveas(gcf, strcat(s, costFunction));
-% END save figure file with following syntax: hiddenLayers-costFunction
 hold off;
 delete('temp_net.m');
 
@@ -126,9 +116,6 @@ delete('temp_net.m');
 if (createNNFunction)
     genFunction(net, exportName);
 end
-
-% elapsed time
-toc
 
 
 
