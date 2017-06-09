@@ -13,6 +13,8 @@ hiddenLayers = [10 100 10];
 costFunction = 'mae';  % >> help nnperformance
 % using mean absolute error (L1-loss)
 
+% elapsed time
+tic
 % -----------------------------------------------
 % Parallization
 
@@ -116,6 +118,9 @@ delete('temp_net.m');
 if (createNNFunction)
     genFunction(net, exportName);
 end
+
+% elapsed time
+toc
 
 
 
