@@ -1,8 +1,11 @@
 
 tic
-trainingFunctions = {'trainlm', 'trainbr'};
 
+trainingFunctions = {'trainlm', 'trainbr'};
 costFunctions     = {'mse', 'sse'};
+from = 40;
+to   = 4000;
+
 
 layerSingle = [ [10]; [20]; [30]; [40]; [50]; [60]; [70]; [80]; [90]; [100] ...
                ; [120]; [140]; [160]; [180]; [200] ...
@@ -24,22 +27,22 @@ for tfc = trainingFunctions
     for cfc = costFunctions
         [rows, ~] = size(layerSingle); 
         for l = 1:rows
-            ffnet_runner_regulator(tfc{1}, layerSingle(l,:), cfc{1}, 40, 80);
+            ffnet_runner_regulator(tfc{1}, layerSingle(l,:), cfc{1}, from, to);
         end
 
         [rows, ~] = size(layerDouble); 
         for l = 1:rows
-            ffnet_runner_regulator(tfc{1}, layerDouble(l,:), cfc{1}, 40, 80);
+            ffnet_runner_regulator(tfc{1}, layerDouble(l,:), cfc{1}, from, to);
         end
 
         [rows, ~] = size(layerTriple);
         for l = 1:rows
-            ffnet_runner_regulator(tfc{1}, layerTriple(l,:), cfc{1}, 40, 80);
+            ffnet_runner_regulator(tfc{1}, layerTriple(l,:), cfc{1}, from, to);
         end
         
         [rows, ~] = size(layerQuadruple); 
         for l = 1:rows
-            ffnet_runner_regulator(tfc{1}, layerQuadruple(l, :), cfc{1}, 40, 80);
+            ffnet_runner_regulator(tfc{1}, layerQuadruple(l, :), cfc{1}, from, to);
         end
      end
 end
