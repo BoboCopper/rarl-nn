@@ -118,7 +118,7 @@ for gen = 1:generation
         [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
          
     elseif multiCoreActive
-        [net, tr] = train(net, X, Y, 'useParallel','yes','showResources','yes'); 
+        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'no', 'showResources','yes'); 
         
     else
         [net, tr] = train(net, X, Y);
@@ -177,7 +177,6 @@ annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 % START save figure file with following syntax:
 % hiddenLayers-costFunction-validationError-from-to
-validationError = 0.02;
 s = '';
 for layerSize = 1:length(hiddenLayers)
    s = strcat(s, num2str(hiddenLayers(layerSize)), '-');
