@@ -177,8 +177,9 @@ annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 % START save figure file with following syntax:
 % validationError-hiddenLayers-costFunction-from-to
-s = '';
-strcat(s, num2str(validationError), '-');
+validationError = 0.02;
+s = 'e-';
+s = strcat(s, num2str(validationError), '-');
 
 for layerSize = 1:length(hiddenLayers)
    s = strcat(s, num2str(hiddenLayers(layerSize)), '-');
