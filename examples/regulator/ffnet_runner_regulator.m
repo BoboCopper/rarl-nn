@@ -108,30 +108,30 @@ net.trainParam.showWindow = showGUI;
 
 
 fprintf('------- Starting training... --------\n');
-% 
-% for gen = 1:generation
-%     
-%     if multiCoreActive && multiCoreActive
-%         [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
-%         
-%     elseif gpuAccelerationActive
-%         [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
-%          
-%     elseif multiCoreActive
-%         [net, tr] = train(net, X, Y, 'useParallel','yes','showResources','yes'); 
-%         
-%     else
-%         [net, tr] = train(net, X, Y);
-%     end
-%     
-%     [trainingError, testError, validationError] = trainingdata(net, X, Y, tr);
-% 
-%     % Console output
-%     fprintf('\nGeneration %i:\n', gen);
-%     fprintf('    TrainingError:   %d\n',   trainingError);
-%     fprintf('    TestError:       %d\n',       testError);
-%     fprintf('    ValidationError: %d\n', validationError);
-% end
+
+for gen = 1:generation
+    
+    if multiCoreActive && multiCoreActive
+        [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
+        
+    elseif gpuAccelerationActive
+        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
+         
+    elseif multiCoreActive
+        [net, tr] = train(net, X, Y, 'useParallel','yes','showResources','yes'); 
+        
+    else
+        [net, tr] = train(net, X, Y);
+    end
+    
+    [trainingError, testError, validationError] = trainingdata(net, X, Y, tr);
+
+    % Console output
+    fprintf('\nGeneration %i:\n', gen);
+    fprintf('    TrainingError:   %d\n',   trainingError);
+    fprintf('    TestError:       %d\n',       testError);
+    fprintf('    ValidationError: %d\n', validationError);
+end
 
 fprintf('------- Done! --------\n');
 
@@ -146,33 +146,33 @@ hold on;
 plot(Y_nn);
 
 % write data to plot
-% dim = [.02 0 0 .9];
-% str = strcat('trainFcn: ', trainFcn);
-% annotation('textbox',dim,'String',str, 'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .8];
-% str = strcat('hiddenLayers: ', mat2str(hiddenLayers));
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .7];
-% str = strcat('costFcn: ', costFunction);
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .6];
-% str = strcat(strcat(strcat('dataSize: ', num2str(from)), ':'), num2str(to));
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .5];
-% str = strcat('trainError: ', num2str(trainingError));
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .4];
-% str = strcat('valError: ', num2str(validationError));
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
-% 
-% dim = [.02 0 0 .3];
-% str = strcat('time in min: ', num2str(toc / 60));
-% annotation('textbox',dim,'String',str,'FitBoxToText','on');
+dim = [.02 0 0 .9];
+str = strcat('trainFcn: ', trainFcn);
+annotation('textbox',dim,'String',str, 'FitBoxToText','on');
+
+dim = [.02 0 0 .8];
+str = strcat('hiddenLayers: ', mat2str(hiddenLayers));
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+dim = [.02 0 0 .7];
+str = strcat('costFcn: ', costFunction);
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+dim = [.02 0 0 .6];
+str = strcat(strcat(strcat('dataSize: ', num2str(from)), ':'), num2str(to));
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+dim = [.02 0 0 .5];
+str = strcat('trainError: ', num2str(trainingError));
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+dim = [.02 0 0 .4];
+str = strcat('valError: ', num2str(validationError));
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+dim = [.02 0 0 .3];
+str = strcat('time in min: ', num2str(toc / 60));
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 
 % START save figure file with following syntax:
