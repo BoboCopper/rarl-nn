@@ -111,18 +111,18 @@ fprintf('------- Starting training... --------\n');
 
 for gen = 1:generation
     
-    if multiCoreActive && multiCoreActive
-        [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
+%    if multiCoreActive && multiCoreActive
+%        [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
         
-    elseif gpuAccelerationActive
-        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
+%    elseif gpuAccelerationActive
+%        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
          
-    elseif multiCoreActive
+%    elseif multiCoreActive
         [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'no', 'showResources','yes'); 
         
-    else
-        [net, tr] = train(net, X, Y);
-    end
+%    else
+%        [net, tr] = train(net, X, Y);
+%    end
     
     [trainingError, testError, validationError] = trainingdata(net, X, Y, tr);
 
@@ -176,14 +176,16 @@ annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 
 % START save figure file with following syntax:
-% hiddenLayers-costFunction-validationError-from-to
+% validationError-hiddenLayers-costFunction-from-to
 s = '';
+strcat(s, num2str(validationError), '-');
+
 for layerSize = 1:length(hiddenLayers)
    s = strcat(s, num2str(hiddenLayers(layerSize)), '-');
 end
 
 s = strcat(s, trainFcn, '-');
-s = strcat(s, costFunction, '-', num2str(validationError));
+s = strcat(s, costFunction);
 s = strcat(s, '+', num2str(from), '-', num2str(to));
 
 title(s);
