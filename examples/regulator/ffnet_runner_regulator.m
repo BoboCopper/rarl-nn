@@ -118,7 +118,7 @@ for gen = 1:generation
 %        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
          
 %    elseif multiCoreActive
-        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'no', 'showResources','yes'); 
+        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'yes', 'showResources','yes'); 
         
 %    else
 %        [net, tr] = train(net, X, Y);

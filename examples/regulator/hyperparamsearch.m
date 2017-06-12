@@ -1,10 +1,10 @@
 
 tic
 
-trainingFunctions = {'trainlm', 'trainbr'};
+trainingFunctions = { 'trainscg' }; % {'trainlm', 'trainbr'};
 costFunctions     = {'mse', 'sse'};
 from = 40;
-to   = 4000;
+to   = 8500;
 
 
 layerSingle = [ [10]; [20]; [30]; [40]; [50]; [60]; [70]; [80]; [90]; [100] ...
