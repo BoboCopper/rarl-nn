@@ -25,7 +25,7 @@ trainFcn = 'trainbr';  % Scaled conjugate gradient backpropagation.
 % ------------------------------------------------------------------
 % per default there will be size(hiddenLayers) + 1 layers
 % change 'fitnet' to another neural net architecture if needed
-net = fitnet(hiddenLayers,trainFcn);
+net = feedforwardnet(hiddenLayers,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
@@ -38,8 +38,8 @@ net.divideFcn = 'divideint';  % Divide data based on intervals
 net.divideMode = 'sample';  % Divide up every sample
 
 % we only use this for RL training, we don't have a testRatio/valRatio
-net.divideParam.trainRatio = 75/100;
-net.divideParam.valRatio = 25/100;
+net.divideParam.trainRatio = 40/100;
+net.divideParam.valRatio = 60/100;
 net.divideParam.testRatio = 0/100;
 
 % how often can the validation error rise
