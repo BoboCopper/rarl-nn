@@ -24,9 +24,9 @@ for tfc = trainingFunctions
             ffnet_runner_regulator(tfc{1}, layer8(l,:), cfc{1}, from, to);
         end
 
-        [rows, ~] = size(layer9); 
+        [rows, ~] = size(layer10); 
         for l = 1:rows
-            ffnet_runner_regulator(tfc{1}, layer9(l,:), cfc{1}, from, to);
+            ffnet_runner_regulator(tfc{1}, layer10(l,:), cfc{1}, from, to);
         end
      end
 end
