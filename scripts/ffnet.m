@@ -38,8 +38,8 @@ net.divideFcn = 'divideint';  % Divide data based on intervals
 net.divideMode = 'sample';  % Divide up every sample
 
 % we only use this for RL training, we don't have a testRatio/valRatio
-net.divideParam.trainRatio = 75/100;
-net.divideParam.valRatio = 25/100;
+net.divideParam.trainRatio = 40/100;
+net.divideParam.valRatio = 60/100;
 net.divideParam.testRatio = 0/100;
 
 % how often can the validation error rise
