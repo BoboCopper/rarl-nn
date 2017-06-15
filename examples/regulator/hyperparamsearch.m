@@ -3,6 +3,7 @@ tic
 
 trainingFunctions = {'trainscg' };
 costFunctions     = { 'mse' }; 
+
 from = 40;
 to   = 8500;
 
