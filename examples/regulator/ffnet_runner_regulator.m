@@ -29,17 +29,22 @@ gpuAccelerationActive = 0;
 % Highlevel configuration of the training
 %
 generation = 1;              % run training #generation * #epoch times
-epochs     = 10000;             % 
+epochs     = 10000;          % 
 
 % -----------------------------------------------
 % Inputs
 
 csv_data_cm = csvread('data_wemding_cm.csv', 2, 0);
-% csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
+csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
 X_CM = csv_data_cm(from:to, 2:4);
+X_CM = transpose(X_CM);
 
-X = transpose(X_CM);
+X_RG = csv_data_rg(from:to, 2:4);
+X_RG = transpose(X_RG);
+
+% X = X_CM;
+X = [X_CM, X_RG];
 
 % -----------------------------------------------
 
@@ -47,6 +52,9 @@ X = transpose(X_CM);
 % Outputs
 Y_CM = csv_data_cm(from:to, 5);
 Y = transpose(Y_CM);
+Y = movmean(Y,70);
+Y = [Y, Y]; % double the Y's because we have the X_CM + X_RG
+
 % -----------------------------------------------
 
 % -----------------------------------------------
@@ -63,8 +71,8 @@ ylim([ min(Y) max(Y) ]); % y limits
 % Other configuration
 %
 rng(0);                             % deterministic setting
-showGUI          = true;
-createNNFunction = false;        
+showGUI          = false;
+createNNFunction = true;        
 exportName       = 'examplenet';    % name of the exported nn function
 % -----------------------------------------------
 
@@ -118,7 +126,7 @@ for gen = 1:generation
 %        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
          
 %    elseif multiCoreActive
-        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'no', 'showResources','yes'); 
+        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'yes', 'showResources','yes'); 
         
 %    else
 %        [net, tr] = train(net, X, Y);
@@ -197,7 +205,7 @@ delete('temp_net.m');
 
 % -----------------------------------------------
 if (createNNFunction)
-    genFunction(net, exportName);
+    genFunction(net, strcat(s, '.m'));
 end
 
 % elapsed time
