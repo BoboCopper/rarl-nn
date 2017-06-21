@@ -72,7 +72,7 @@ ylim([ min(Y) max(Y) ]); % y limits
 %
 rng(0);                             % deterministic setting
 showGUI          = false;
-createNNFunction = true;        
+createNNFunction = false;        
 exportName       = 'examplenet';    % name of the exported nn function
 % -----------------------------------------------
 
@@ -82,7 +82,18 @@ exportName       = 'examplenet';    % name of the exported nn function
 
 % init network
 net = feedforwardnet(hiddenLayers, trainFcn);
+% START set weights and biases of net -----------------------------------
+for layer = 1:size(hiddenLayers)
+    net.layers{layer}.initFcn = 'initwb';
+    for weight = 1:size(net.layers{layer})
+        net.inputWeights{layer,weight}.initFcn = 'randsmall';
 
+        net.layerWeights{layer,weight}.initFcn = 'randsmall';
+    end
+    net.biases{layer}.initFcn = 'randsmall';
+end
+net = init(net);
+% END set weigths and biases of net -------------------------------------
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
 % net.input.processFcns = {'removeconstantrows','mapminmax'};
@@ -126,7 +137,7 @@ for gen = 1:generation
 %        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
          
 %    elseif multiCoreActive
-        [net, tr] = train(net, X, Y, 'useParallel','yes', 'useGPU', 'yes', 'showResources','yes'); 
+        [net, tr] = train(net, X, Y, 'useGPU', 'yes', 'showResources','yes'); 
         
 %    else
 %        [net, tr] = train(net, X, Y);
@@ -207,6 +218,8 @@ delete('temp_net.m');
 if (createNNFunction)
     genFunction(net, strcat(s, '.m'));
 end
+
+save(strcat(s, '.m'), 'net');
 
 % elapsed time
 toc
