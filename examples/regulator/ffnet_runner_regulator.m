@@ -34,26 +34,29 @@ epochs     = 10000;          %
 % -----------------------------------------------
 % Inputs
 
-csv_data_cm = csvread('data_wemding_cm.csv', 2, 0);
-csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
+csv_data_cm = csvread('data_wemding_cm_detailed.csv', 2, 0);
+% csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
-X_CM = csv_data_cm(from:to, 2:4);
+X_CM = csv_data_cm(from:to, 1:3);
 X_CM = transpose(X_CM);
 
-X_RG = csv_data_rg(from:to, 2:4);
-X_RG = transpose(X_RG);
+% X_RG = csv_data_rg(from:to, 2:4);
+% X_RG = transpose(X_RG);
 
-% X = X_CM;
-X = [X_CM, X_RG];
+% X_CM = X_CM(1:50:length(X_CM), :);
+
+X = X_CM;
+% X = [X_CM, X_RG];
 
 % -----------------------------------------------
 
 % -----------------------------------------------
 % Outputs
-Y_CM = csv_data_cm(from:to, 5);
+Y_CM = csv_data_cm(from:to, 4);
 Y = transpose(Y_CM);
 Y = movmean(Y,70);
-Y = [Y, Y]; % double the Y's because we have the X_CM + X_RG
+
+% Y = [Y, Y]; % double the Y's because we have the X_CM + X_RG
 
 % -----------------------------------------------
 
@@ -79,7 +82,7 @@ exportName       = 'examplenet';    % name of the exported nn function
 
 % Main loop
 % -----------------------------------------------
-
+% 
 % init network
 net = feedforwardnet(hiddenLayers, trainFcn);
 % START set weights and biases of net -----------------------------------
@@ -93,6 +96,7 @@ for layer = 1:size(hiddenLayers)
     net.biases{layer}.initFcn = 'randsmall';
 end
 net = init(net);
+
 % END set weigths and biases of net -------------------------------------
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
