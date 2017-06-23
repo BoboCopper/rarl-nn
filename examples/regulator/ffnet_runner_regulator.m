@@ -29,7 +29,7 @@ gpuAccelerationActive = 0;
 % Highlevel configuration of the training
 %
 generation = 1;              % run training #generation * #epoch times
-epochs     = 1000;          % 
+epochs     = 10000;          % 
 
 % -----------------------------------------------
 % Inputs
