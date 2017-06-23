@@ -29,12 +29,12 @@ gpuAccelerationActive = 0;
 % Highlevel configuration of the training
 %
 generation = 1;              % run training #generation * #epoch times
-epochs     = 10000;          % 
+epochs     = 1000;          % 
 
 % -----------------------------------------------
 % Inputs
 
-csv_data_cm = csvread('data_wemding_cm_detailed.csv', 2, 0);
+csv_data_cm = csvread('data_wemding_cm_to_cm_preprocessed_1_8741.csv', 0, 0);
 % csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
 X_CM = csv_data_cm(from:stepSize:to, 1:3);
@@ -52,7 +52,7 @@ X = X_CM;
 % Outputs
 Y_CM = csv_data_cm(from:stepSize:to, 4);
 Y = transpose(Y_CM);
-Y = movmean(Y,70);
+% Y = movmean(Y,70);
 
 % Y = [Y, Y]; % double the Y's because we have the X_CM + X_RG
 
@@ -72,7 +72,7 @@ ylim([ min(Y) max(Y) ]); % y limits
 % Other configuration
 %
 rng(0);                             % deterministic setting
-showGUI          = false;
+showGUI          = true;
 createNNFunction = false;        
 exportName       = 'examplenet';    % name of the exported nn function
 % -----------------------------------------------
