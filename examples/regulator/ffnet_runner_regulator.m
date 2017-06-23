@@ -1,4 +1,4 @@
-function validationError = ffnet_runner_regulator(trainFcn, hiddenLayers, costFunction, from, to)
+function validationError = ffnet_runner_regulator(trainFcn, hiddenLayers, costFunction, from, to, stepSize)
 
 % Regulator
 
@@ -37,13 +37,11 @@ epochs     = 10000;          %
 csv_data_cm = csvread('data_wemding_cm_detailed.csv', 2, 0);
 % csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
-X_CM = csv_data_cm(from:to, 1:3);
+X_CM = csv_data_cm(from:stepSize:to, 1:3);
 X_CM = transpose(X_CM);
 
 % X_RG = csv_data_rg(from:to, 2:4);
 % X_RG = transpose(X_RG);
-
-% X_CM = X_CM(1:50:length(X_CM), :);
 
 X = X_CM;
 % X = [X_CM, X_RG];
@@ -52,7 +50,7 @@ X = X_CM;
 
 % -----------------------------------------------
 % Outputs
-Y_CM = csv_data_cm(from:to, 4);
+Y_CM = csv_data_cm(from:stepSize:to, 4);
 Y = transpose(Y_CM);
 Y = movmean(Y,70);
 
@@ -85,8 +83,12 @@ exportName       = 'examplenet';    % name of the exported nn function
 % 
 % init network
 net = feedforwardnet(hiddenLayers, trainFcn);
-% START set weights and biases of net -----------------------------------
+% START set weights and biases of net + dropout layer -----------------------------------
 for layer = 1:size(hiddenLayers)
+    % dropoutLayer syntax: layer = dropoutLayer(probability, opt: name, opt: value_for_name);
+    % just a random probability decreasing with increasing iterations
+    % probability = (0.5 - layer);
+    % net.layer{layer} = dropoutLayer(probability);
     net.layers{layer}.initFcn = 'initwb';
     for weight = 1:size(net.layers{layer})
         net.inputWeights{layer,weight}.initFcn = 'randsmall';
@@ -97,7 +99,9 @@ for layer = 1:size(hiddenLayers)
 end
 net = init(net);
 
-% END set weigths and biases of net -------------------------------------
+% END set weigths and biases of net + dropout layer -------------------------------------
+
+
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
 % net.input.processFcns = {'removeconstantrows','mapminmax'};
