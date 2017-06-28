@@ -87,7 +87,7 @@ net = feedforwardnet(hiddenLayers, trainFcn);
 for layer = 1:size(hiddenLayers)
     % dropoutLayer syntax: layer = dropoutLayer(probability, opt: name, opt: value_for_name);
     % just a random probability decreasing with increasing iterations
-    % probability = (0.5 - layer);
+    % probability = (0.5 - 0.01 * layer);
     % net.layer{layer} = dropoutLayer(probability);
     net.layers{layer}.initFcn = 'initwb';
     for weight = 1:size(net.layers{layer})
@@ -106,6 +106,17 @@ net = init(net);
 % For a list of all processing functions type: help nnprocess
 % net.input.processFcns = {'removeconstantrows','mapminmax'};
 % net.output.processFcns = {'removeconstantrows','mapminmax'};
+
+% START options for regularization etc.
+% options = trainingOptions(sgdm);
+% options = trainingOptions('sgdm',...
+%      'LearnRateSchedule','piecewise',...
+%      'LearnRateDropFactor',0.2,... 
+%      'LearnRateDropPeriod',5,... 
+%      'MaxEpochs',20,... 
+%      'MiniBatchSize',300,...
+%      'CheckpointPath','C:\TEMP\checkpoint');
+% END options for regulariztaion etc.
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
@@ -214,6 +225,8 @@ end
 s = strcat(s, trainFcn, '-');
 s = strcat(s, costFunction);
 s = strcat(s, '+', num2str(from), '-', num2str(to));
+s = strcat(s, 'rad2deg');
+s = strcat(s, '-size-', num2str(stepSize));
 
 title(s);
 saveas(gcf, strcat(s, '.fig'));
