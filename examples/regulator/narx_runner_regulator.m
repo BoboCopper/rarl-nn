@@ -15,7 +15,7 @@ Y_new = [];
 [cols, rows] = size(X_CM);
 for i = 1:rows
     curCell{1} = X_CM(1:cols, i);
-    [singleResult, Xf] = trainlm_20_2_net(curCell, xi);
+    singleResult = myNeuralNetworkFunction(curCell);
     if(i > 1)
         xi{1} = X_CM(1:cols, i-1);
         if(i > 2)
