@@ -5,23 +5,11 @@ tic
 curCell = cell(1);
 singleResult = cell(1);
 
-xi = cell(1, 2);
-xi{1} = 0;
-xi{2} = 0;
-
-Xf = cell(1, 2);
-
 Y_new = [];
 [cols, rows] = size(X_CM);
 for i = 1:rows
     curCell{1} = X_CM(1:cols, i);
-    singleResult = myNeuralNetworkFunction(curCell);
-    if(i > 1)
-        xi{1} = X_CM(1:cols, i-1);
-        if(i > 2)
-            xi{2} = X_CM(1:cols, i-2);
-        end
-    end
+    singleResult = fitnet(curCell);
     Y_new = [Y_new singleResult{1}];
 end
 
