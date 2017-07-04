@@ -1,18 +1,26 @@
+setupWorkspace;
+
 tic
 
-y_init = cell(1);
-y_init{1} = 0;
+curCell = cell(1);
+singleResult = cell(1);
 
-Xf = cell(1);
+xi = cell(1, 2);
+xi{1} = 0;
+xi{2} = 0;
+
+Xf = cell(1, 2);
 
 Y_new = [];
 [cols, rows] = size(X_CM);
 for i = 1:rows
-    curCell = cell(2,1);
-    curCell{1} = X_CM(1:3, i);
-    curCell{2} = y_init{1};
-    [y_init, Xf] = neural_function(curCell, xis);
-    Y_new = [Y_new y_init{1}];
+    curCell{1} = X_CM(1:cols, i);
+    [singleResult, Xf] = trainlm_20_2_net(curCell, xi);
+    if(i > 2)
+        xi{1} = X_CM(1:cols, i-1);
+        xi{2} = X_CM(1:cols, i-2);
+    end
+    Y_new = [Y_new singleResult{1}];
 end
 
 toc
