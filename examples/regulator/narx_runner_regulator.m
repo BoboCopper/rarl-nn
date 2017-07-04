@@ -16,9 +16,11 @@ Y_new = [];
 for i = 1:rows
     curCell{1} = X_CM(1:cols, i);
     [singleResult, Xf] = trainlm_20_2_net(curCell, xi);
-    if(i > 2)
+    if(i > 1)
         xi{1} = X_CM(1:cols, i-1);
-        xi{2} = X_CM(1:cols, i-2);
+        if(i > 2)
+            xi{2} = X_CM(1:cols, i-2);
+        end
     end
     Y_new = [Y_new singleResult{1}];
 end
