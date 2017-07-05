@@ -29,7 +29,7 @@ gpuAccelerationActive = 0;
 % Highlevel configuration of the training
 %
 generation = 1;              % run training #generation * #epoch times
-epochs     = 10000;          % 
+epochs     = 20000;            % 
 
 % -----------------------------------------------
 % Inputs
@@ -83,6 +83,9 @@ exportName       = 'examplenet';    % name of the exported nn function
 % 
 % init network
 net = feedforwardnet(hiddenLayers, trainFcn);
+
+net.trainParam.showCommandLine = true;
+net.trainParam.lambda = 0.2;
 % START set weights and biases of net + dropout layer -----------------------------------
 for layer = 1:size(hiddenLayers)
     % dropoutLayer syntax: layer = dropoutLayer(probability, opt: name, opt: value_for_name);
@@ -129,7 +132,7 @@ net.divideParam.valRatio = 25/100;
 net.divideParam.testRatio = 0/100;
 
 % how often can the validation error rise
-net.trainParam.max_fail = 100; 
+net.trainParam.max_fail = 200; 
 
 % only L2 regularisation is possible (1/n * sum(w^2))
 net.performParam.regularization = 0.5;
@@ -150,7 +153,7 @@ fprintf('------- Starting training... --------\n');
 for gen = 1:generation
     
 %    if multiCoreActive && multiCoreActive
-%        [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','yes','showResources','yes'); 
+       % [net, tr] = train(net, X, Y, 'useParallel','yes','useGPU','no','showResources','yes'); 
         
 %    elseif gpuAccelerationActive
 %        [net, tr] = train(net, X, Y, 'useGPU','yes','showResources','yes'); 
@@ -227,6 +230,7 @@ s = strcat(s, costFunction);
 s = strcat(s, '+', num2str(from), '-', num2str(to));
 s = strcat(s, 'rad2deg');
 s = strcat(s, '-size-', num2str(stepSize));
+s = strcat(s, '-lambda-', num2str(net.trainParam.lambda));
 
 title(s);
 saveas(gcf, strcat(s, '.fig'));

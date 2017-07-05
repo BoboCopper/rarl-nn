@@ -9,7 +9,7 @@ Y_new = [];
 [cols, rows] = size(X_CM);
 for i = 1:rows
     curCell{1} = X_CM(1:cols, i);
-    singleResult = fitnet(curCell);
+    singleResult = customFitnet(curCell);
     Y_new = [Y_new singleResult{1}];
 end
 
