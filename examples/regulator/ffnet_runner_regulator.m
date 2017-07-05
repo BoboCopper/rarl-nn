@@ -37,6 +37,13 @@ epochs     = 20000;            %
 csv_data_cm = csvread('cmerr_to_cmangle_rad2deg.csv', 2, 0);
 % csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
+rand_index = randperm(length(csv_data_cm(1,:)));
+
+csv_data_cm(1,:) = csv_data_cm(1, rand_index);
+csv_data_cm(2,:) = csv_data_cm(2, rand_index);
+csv_data_cm(3,:) = csv_data_cm(3, rand_index);
+csv_data_cm(4,:) = csv_data_cm(4, rand_index);
+
 X_CM = csv_data_cm(from:stepSize:to, 1:3);
 X_CM = transpose(X_CM);
 
@@ -85,7 +92,7 @@ exportName       = 'examplenet';    % name of the exported nn function
 net = feedforwardnet(hiddenLayers, trainFcn);
 
 net.trainParam.showCommandLine = true;
-net.trainParam.lambda = 0.2;
+net.trainParam.lambda = 0.5;
 % START set weights and biases of net + dropout layer -----------------------------------
 for layer = 1:size(hiddenLayers)
     % dropoutLayer syntax: layer = dropoutLayer(probability, opt: name, opt: value_for_name);
@@ -238,6 +245,10 @@ saveas(gcf, strcat(s, '.fig'));
 % END save figure file with following syntax: hiddenLayers-costFunction
 hold off;
 delete('temp_net.m');
+
+plotperform(tr)
+saveas(gcf, strcat(s,'-performance.fig'));
+
 
 % -----------------------------------------------
 if (createNNFunction)
