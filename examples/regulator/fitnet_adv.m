@@ -15,10 +15,10 @@ t = Y;
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainlm';  % Levenberg-Marquardt backpropagation.
+trainFcn = 'trainscg';  % Levenberg-Marquardt backpropagation.
 
 % Create a Fitting Network
-hiddenLayerSize = 5;
+hiddenLayerSize = [20 10 5];
 net = fitnet(hiddenLayerSize,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
@@ -78,7 +78,7 @@ if (true)
     % deployment in MATLAB scripts or with MATLAB Compiler and Builder
     % tools, or simply to examine the calculations your trained neural
     % network performs.
-    genFunction(net,'fitnet');
+    genFunction(net,'customFitnet');
     y = fitnet(x);
 end
 if (false)
