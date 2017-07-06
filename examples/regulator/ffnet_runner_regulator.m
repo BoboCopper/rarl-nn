@@ -37,27 +37,35 @@ epochs     = 20000;            %
 csv_data_cm = csvread('cmerr_to_cmangle_rad2deg_v3.csv', 2, 0);
 % csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
-rand_index = randperm(length(csv_data_cm(1,:)));
+% rand_index = randperm(length(csv_data_cm(1,:)));
+% 
+% csv_data_cm(1,:) = csv_data_cm(1, rand_index);
+% csv_data_cm(2,:) = csv_data_cm(2, rand_index);
+% csv_data_cm(3,:) = csv_data_cm(3, rand_index);
+% csv_data_cm(4,:) = csv_data_cm(4, rand_index);
 
-csv_data_cm(1,:) = csv_data_cm(1, rand_index);
-csv_data_cm(2,:) = csv_data_cm(2, rand_index);
-csv_data_cm(3,:) = csv_data_cm(3, rand_index);
-csv_data_cm(4,:) = csv_data_cm(4, rand_index);
+% X_CM = csv_data_cm(from:stepSize:to, 1:3);
+% X_CM = transpose(X_CM);
 
-X_CM = csv_data_cm(from:stepSize:to, 1:3);
-X_CM = transpose(X_CM);
-
-% X_RG = csv_data_rg(from:to, 2:4);
-% X_RG = transpose(X_RG);
+cur_angle_X_CM = csv_data_cm(from:stepSize:to-1, 1);                                                                                                                            
+cur_dist_X_CM  = csv_data_cm(from:stepSize:to-1, 2);                                                                                                                            
+% cur_curve_X_CM = csv_data_cm(1:stepSize:to-1, 3);                                                                                                                          
+                                                                                                                                                                             
+                                                                                                                                                                             
+future_angle_X_CM = csv_data_cm(from+1:stepSize:to, 1);                                                                                                                           
+future_dist_X_CM  = csv_data_cm(from+1:stepSize:to, 2);                                                                                                                           
+% future_curve_X_CM = csv_data_cm(2:stepSize:to, 3);                                                                                                                         
+                                                                                                                                                                             
+X_CM = [cur_angle_X_CM future_angle_X_CM cur_dist_X_CM future_dist_X_CM];                                                                                                    
+                                                                                                                                                                             
+X_CM = transpose(X_CM);       
 
 X = X_CM;
-% X = [X_CM, X_RG];
-
 % -----------------------------------------------
 
 % -----------------------------------------------
 % Outputs
-Y_CM = csv_data_cm(from:stepSize:to, 4);
+Y_CM = csv_data_cm(from+1:stepSize:to, 4);
 Y = transpose(Y_CM);
 Y = movmean(Y,70);
 

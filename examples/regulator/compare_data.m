@@ -2,7 +2,7 @@
 % model
 
 % change this id to a saved 'net' file
-modelstr = 'e-11.0375-64-32-16-8-trainscg-mse+1-98365rad2deg-size-5-lambda-1';
+modelstr = 'e-0.38246-20-10-trainscg-mse+1-10000rad2deg-size-2-lambda-0.5';
 
 % add *.m file to the scoe
 addpath('../../data/regulator/hyperparamtuning');
@@ -14,8 +14,8 @@ net = importdata(strcat(modelstr, '.m'), 'net');
 genFunction(net, 'current_best_model.m');
 
 % how to smooth the curves with movmean - rms depends on this
-mediancount = 500;
-meancount = 500;
+mediancount = 1;
+meancount   = 1;
 
 initial_y_meancount = 1;
 
@@ -26,21 +26,38 @@ stepSize = 1;
 % adding csv wemding data
 addpath('../../data/regulator');
 
-csv_data_cm = csvread('cmerr_to_cmangle_rad2deg.csv', 2, 0);
+csv_data_cm = csvread('cmerr_to_cmangle_rad2deg_v3.csv', 2, 0);
 
 from = 1;
-to   = 98365; % 98365;
+to   = 112797;
+% v1 ~ 98365
+% v2 ~ 96106 
+% v3 ~ 112797
 
 % ----------------------------------------------
 
-X_CM = csv_data_cm(from:stepSize:to, 1:3);
-X_CM = transpose(X_CM);
+% X_CM = csv_data_cm(from:stepSize:to, 1:2);
+% X_CM = transpose(X_CM);
 
-X_INIT = from:stepSize:to;
+cur_angle_X_CM = csv_data_cm(1:stepSize:to-1, 1);                                                                                                                            
+cur_dist_X_CM  = csv_data_cm(1:stepSize:to-1, 2);                                                                                                                            
+% cur_curve_X_CM = csv_data_cm(1:stepSize:to-1, 3);                                                                                                                          
+                                                                                                                                                                             
+                                                                                                                                                                             
+future_angle_X_CM = csv_data_cm(2:stepSize:to, 1);                                                                                                                           
+future_dist_X_CM  = csv_data_cm(2:stepSize:to, 2);                                                                                                                           
+% future_curve_X_CM = csv_data_cm(2:stepSize:to, 3);                                                                                                                         
+                                                                                                                                                                             
+X_CM = [cur_angle_X_CM future_angle_X_CM cur_dist_X_CM future_dist_X_CM];                                                                                                    
+                                                                                                                                                                             
+X_CM = transpose(X_CM);                                                                                                                                                      
+                                                                                                                                                                             
+X_INIT = from:stepSize:to-1;
 
 % -----------------------------------------------
 
-Y_CM = csv_data_cm(from:stepSize:to, 4);
+% Y_CM = csv_data_cm(from:stepSize:to, 4);
+Y_CM = csv_data_cm(2:stepSize:to, 4);
 Y_CM = transpose(Y_CM);
 Y_CM = movmean(Y_CM, initial_y_meancount);
 
