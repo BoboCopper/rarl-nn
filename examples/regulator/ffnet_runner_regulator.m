@@ -34,7 +34,7 @@ epochs     = 20000;            %
 % -----------------------------------------------
 % Inputs
 
-csv_data_cm = csvread('cmerr_to_cmangle_rad2deg.csv', 2, 0);
+csv_data_cm = csvread('cmerr_to_cmangle_rad2deg_v3.csv', 2, 0);
 % csv_data_rg = csvread('data_wemding_regulator.csv', 2, 0);
 
 rand_index = randperm(length(csv_data_cm(1,:)));
@@ -93,6 +93,9 @@ net = feedforwardnet(hiddenLayers, trainFcn);
 
 net.trainParam.showCommandLine = true;
 net.trainParam.lambda = 0.5;
+
+net.layers{length(net.layers)}.transferFcn = 'tansig';
+
 % START set weights and biases of net + dropout layer -----------------------------------
 for layer = 1:size(hiddenLayers)
     % dropoutLayer syntax: layer = dropoutLayer(probability, opt: name, opt: value_for_name);
@@ -134,8 +137,8 @@ net.divideFcn = 'divideint';  % Divide data based on intervals
 net.divideMode = 'sample';  % Divide up every sample
 
 % we only use this for RL training, we don't have a testRatio/valRatio
-net.divideParam.trainRatio = 75/100;
-net.divideParam.valRatio = 25/100;
+net.divideParam.trainRatio = 50/100;
+net.divideParam.valRatio = 50/100;
 net.divideParam.testRatio = 0/100;
 
 % how often can the validation error rise
