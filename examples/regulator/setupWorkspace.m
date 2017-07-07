@@ -2,7 +2,7 @@ addpath('../../data/regulator');
 
 from = 1;
 to = 98365; % #timesteps in cmerr_to_cmangle_rad2deg.csv
-
+[cols, rows] = size(X_CM);
 stepSize = 1; % stepsize to take in cmerr_to_cmangle_rad2deg.csv
 
 tic

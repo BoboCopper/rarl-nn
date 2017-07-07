@@ -47,6 +47,8 @@ net.divideParam.testRatio = 15/100;
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'mse';  % Mean Squared Error
 
+% net.performParam.regularization = 0.3;
+
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
 net.plotFcns = {'plotperform','plottrainstate', 'ploterrhist', ...
