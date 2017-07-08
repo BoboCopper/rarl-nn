@@ -19,7 +19,7 @@ trainFcn = 'trainlm';  % Levenberg-Marquardt backpropagation.
 
 % Create a Time Delay Network
 inputDelays = 1:4;
-hiddenLayerSize = 10;
+hiddenLayerSize = [10 5];
 net = timedelaynet(inputDelays,hiddenLayerSize,trainFcn);
 
 % Choose Input and Output Pre/Post-Processing Functions
@@ -47,6 +47,8 @@ net.divideParam.testRatio = 15/100;
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'mse';  % Mean Squared Error
 
+% net.performParam.regularization = 0.3;
+
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
 net.plotFcns = {'plotperform','plottrainstate', 'ploterrhist', ...
@@ -58,15 +60,15 @@ net.plotFcns = {'plotperform','plottrainstate', 'ploterrhist', ...
 % Test the Network
 y = net(x,xi,ai);
 e = gsubtract(t,y);
-performance = perform(net,t,y)
+% performance = perform(net,t,y);
 
 % Recalculate Training, Validation and Test Performance
-trainTargets = gmultiply(t,tr.trainMask);
-valTargets = gmultiply(t,tr.valMask);
-testTargets = gmultiply(t,tr.testMask);
-trainPerformance = perform(net,trainTargets,y)
-valPerformance = perform(net,valTargets,y)
-testPerformance = perform(net,testTargets,y)
+% trainTargets = gmultiply(t,tr.trainMask);
+% valTargets = gmultiply(t,tr.valMask);
+% testTargets = gmultiply(t,tr.testMask);
+% trainPerformance = perform(net,trainTargets,y);
+% valPerformance = perform(net,valTargets,y);
+% testPerformance = perform(net,testTargets,y);
 
 % View the Network
 % view(net)
@@ -95,7 +97,7 @@ nets.name = [net.name ' - Predict One Step Ahead'];
 % view(nets)
 [xs,xis,ais,ts] = preparets(nets,X,T);
 ys = nets(xs,xis,ais);
-stepAheadPerformance = perform(nets,ts,ys)
+% stepAheadPerformance = perform(nets,ts,ys);
 
 % Deployment
 % Change the (false) values to (true) to enable the following code blocks.
