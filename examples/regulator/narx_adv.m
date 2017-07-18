@@ -37,17 +37,17 @@ net = timedelaynet(inputDelays,hiddenLayerSize,trainFcn);
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
-net.divideFcn = 'dividerand';  % Divide data randomly
+net.divideFcn = 'divideblock';  % Divide data into blocks as specified below
 net.divideMode = 'time';  % Divide up every sample
-net.divideParam.trainRatio = 70/100;
-net.divideParam.valRatio = 15/100;
-net.divideParam.testRatio = 15/100;
+net.divideParam.trainRatio = 85/100;
+net.divideParam.valRatio = 5/100;
+net.divideParam.testRatio = 10/100;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
-net.performFcn = 'mse';  % Mean Squared Error
+net.performFcn = 'sse';  % Mean Squared Error
 
-% net.performParam.regularization = 0.3;
+net.performParam.regularization = 0.5;
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
